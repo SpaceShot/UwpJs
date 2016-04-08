@@ -1,12 +1,28 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>UwpJs</title>
-    <link href="css/default.css" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <title>Phaser on UWP - Ready for Xbox</title>
+    <link href="index.css" rel="stylesheet" />
 </head>
 <body>
-    <div>Content goes here!</div>
-    <script src="js/main.js"></script>
+    <div class="indented">
+        <!--<h1>Welcome to the game!</h1>-->
+        <p>
+            Left Thumbstick: <span id="leftThumbstick"></span><br>
+            Velocity: <span id="velocity"></span>
+            Stars Left: <span id="starsLeft"></span>
+        </p>
+    </div>
+    <div class="centered">
+        <div id="phaserCanvas"></div>
+    </div>
+    <p></p>
+    <!--<div class="centered">
+        <img src="/assets/annoyingad.png" alt="" />
+    </div>-->
+    <script src="js/phaser.js"></script>
+    <script src="js/curry.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

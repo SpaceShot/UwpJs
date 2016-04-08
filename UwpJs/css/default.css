@@ -1,5 +1,19 @@
 ﻿body {
-  /* Uncomment this to enable scrolling and zooming
   touch-action: manipulation;
-  */
+}
+
+.hello {
+    font-size: xx-large;
+}
+.big
+{
+    font-size : 300px;
+}
+.medium
+{
+    font-size : 200px;
+}
+.small
+{
+    font-size : 75px;
 }
