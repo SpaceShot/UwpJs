@@ -31,10 +31,7 @@ function preload() {
         if (this.status >= 200 && this.status < 400) {
             // Success!
             httpGetReport(this.response.substring(0,35));
-        } else {
-            // We reached our target server, but it returned an error
-
-        }
+        } 
     };
 
     request.onerror = function () {
@@ -45,10 +42,6 @@ function preload() {
 }
 
 function create() {
-
-    //Windows.Gaming.Input.Gamepad.addEventListener("gamepadadded", function (eventArgs) {
-    //    gamepad = eventArgs;
-    //});
 
     window.addEventListener("gamepadconnected", function (e) {
         gamepad = e.gamepad;
@@ -135,22 +128,6 @@ function update() {
 
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
-
-    //if (gamepad != null) {
-    //    var reading = gamepad.getCurrentReading();
-    //    leftThumbReport(reading.leftThumbstickX + ',' + reading.leftThumbstickY);
-    //    var maybeVelocity = reading.leftThumbstickX * 150;
-    //    if (maybeVelocity > -20 & maybeVelocity < 20) {
-    //        maybeVelocity = 0;
-    //    }
-    //    velocityReport(maybeVelocity);
-
-    //    player.body.velocity.x = maybeVelocity;
-
-    //    if (((reading.buttons & 4) !== 0) && player.body.touching.down) {
-    //        player.body.velocity.y = -350;
-    //    }
-    //}
 
     var gamepads = navigator.getGamepads();
     if (gamepads.length > 0 && gamepads[0] !== undefined) {
