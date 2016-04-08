@@ -3,15 +3,6 @@
 /// <reference path="phaser.min.js" />
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaserCanvas', { preload: preload, create: create, update: update });
 
-function preload() {
-    game.load.image('sky', 'assets/sky.png');
-    game.load.image('ground', 'assets/platform.png');
-    game.load.image('star', 'assets/star.png');
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    //game.load.audio('pickup', ['assets/KirbyStyleLaser.ogg']);
-    game.load.audio('sfx', ['assets/fx_mixdown.ogg', 'assets/fx_mixdown.mp3']);
- }
-
 var platforms;
 var player;
 var cursors;
@@ -24,11 +15,43 @@ var gamepad = null;
 var leftThumbReport = updateElement("leftThumbstick");
 var velocityReport = updateElement("velocity");
 var starsReport = updateElement("starsLeft");
+var httpGetReport = updateElement("httpGet");
+
+function preload() {
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('star', 'assets/star.png');
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.audio('sfx', ['assets/fx_mixdown.ogg', 'assets/fx_mixdown.mp3']);
+
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://www.chrisgomez.com', true);
+
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            // Success!
+            httpGetReport(this.response.substring(0,35));
+        } else {
+            // We reached our target server, but it returned an error
+
+        }
+    };
+
+    request.onerror = function () {
+        // There was a connection error of some sort
+    };
+
+    request.send();
+}
 
 function create() {
 
-    Windows.Gaming.Input.Gamepad.addEventListener("gamepadadded", function (eventArgs) {
-        gamepad = eventArgs;
+    //Windows.Gaming.Input.Gamepad.addEventListener("gamepadadded", function (eventArgs) {
+    //    gamepad = eventArgs;
+    //});
+
+    window.addEventListener("gamepadconnected", function (e) {
+        gamepad = e.gamepad;
     });
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -113,10 +136,27 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
-    if (gamepad != null) {
-        var reading = gamepad.getCurrentReading();
-        leftThumbReport(reading.leftThumbstickX + ',' + reading.leftThumbstickY);
-        var maybeVelocity = reading.leftThumbstickX * 150;
+    //if (gamepad != null) {
+    //    var reading = gamepad.getCurrentReading();
+    //    leftThumbReport(reading.leftThumbstickX + ',' + reading.leftThumbstickY);
+    //    var maybeVelocity = reading.leftThumbstickX * 150;
+    //    if (maybeVelocity > -20 & maybeVelocity < 20) {
+    //        maybeVelocity = 0;
+    //    }
+    //    velocityReport(maybeVelocity);
+
+    //    player.body.velocity.x = maybeVelocity;
+
+    //    if (((reading.buttons & 4) !== 0) && player.body.touching.down) {
+    //        player.body.velocity.y = -350;
+    //    }
+    //}
+
+    var gamepads = navigator.getGamepads();
+    if (gamepads.length > 0 && gamepads[0] !== undefined) {
+        leftThumbReport(gamepads[0].axes[0] + ',' + gamepads[0].axes[1]);
+
+        var maybeVelocity = gamepads[0].axes[0] * 150;
         if (maybeVelocity > -20 & maybeVelocity < 20) {
             maybeVelocity = 0;
         }
@@ -124,11 +164,11 @@ function update() {
 
         player.body.velocity.x = maybeVelocity;
 
-        if (((reading.buttons & 4) !== 0) && player.body.touching.down) {
+        if ((gamepads[0].buttons[0].pressed === true) && player.body.touching.down) {
             player.body.velocity.y = -350;
         }
     }
-
+ 
     if (cursors.left.isDown) {
         //  Move to the left
         player.body.velocity.x = -150;
