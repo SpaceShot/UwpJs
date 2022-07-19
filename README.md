@@ -5,5 +5,4 @@ Today you can take this project and run it in Xbox One Dev Mode.  For now I am e
 
 Splash Screen Image courtesy of Pixomar at FreeDigitalPhotos.net
 
-Jess is the lead developer on the game project.
-I've got your grmmar right here.
+This isn't supported on newer versions of Visual Studio.  You'll need 2017 for JavaScript UWP projects.
